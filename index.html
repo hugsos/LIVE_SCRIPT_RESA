@@ -137,6 +137,37 @@
       width: 0; transition: width 1.4s cubic-bezier(0.34,1.56,0.64,1);
     }
 
+    /* ── Zenchef badge ────────────────────────────────── */
+    .zenchef-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 12px;
+    }
+    .zenchef-label { color: var(--dim); }
+    .zenchef-saving {
+      font-family: 'DM Mono', monospace; font-weight: 500;
+      color: var(--green); font-size: 14px;
+    }
+    .zenchef-saving.negative { color: var(--red); }
+
+    /* ── YTD bar ──────────────────────────────────────── */
+    .ytd {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 16px; padding: 13px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin: 10px 0;
+    }
+    .ytd-left { }
+    .ytd-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+    .ytd-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 20px; font-weight: 500; color: #fff; margin-top: 3px;
+    }
+    .ytd-right { text-align: right; }
+    .ytd-months { font-size: 11px; color: var(--muted); }
+    .ytd-proj { font-size: 10px; color: var(--teal); margin-top: 3px; }
+
     /* ── KPI row ──────────────────────────────────────── */
     .kpis {
       display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 10px 0;
@@ -390,6 +421,18 @@
       </div>
     </div>
 
+    <!-- YTD + Projection -->
+    <div class="ytd" id="ytd-bar" style="display:none">
+      <div class="ytd-left">
+        <div class="ytd-label">Cumul <span id="ytd-year">2026</span></div>
+        <div class="ytd-val"><span id="ytd-val">—</span> <span style="font-size:12px;opacity:.5">€</span></div>
+      </div>
+      <div class="ytd-right">
+        <div class="ytd-months" id="ytd-months">— mois</div>
+        <div class="ytd-proj" id="ytd-proj"></div>
+      </div>
+    </div>
+
     <!-- KPIs -->
     <div class="kpis">
       <div class="kpi">
@@ -558,6 +601,9 @@ function renderMonth(d, data) {
   $('prog-left').textContent = d.montant_plan.toFixed(2) + ' €';
   setTimeout(() => { $('prog-fill').style.width = pct + '%'; }, 80);
 
+  // YTD + Projection
+  renderYTD(d, data);
+
   // KPIs
   countUp('kpi-cvts', d.total_couverts_web || 0);
   $('kpi-pan').textContent = (d.panier_moyen || 30.45).toFixed(2);
@@ -715,6 +761,49 @@ function rr(ctx, x, y, w, h, r) {
   ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
   ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
   ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+}
+
+// ─── YTD + Projection ────────────────────────────────────────────────────────
+function renderYTD(current, data) {
+  const hist = data ? data.history : appData ? appData.history : [];
+  const bar = $('ytd-bar');
+  if (!hist || hist.length === 0) { bar.style.display = 'none'; return; }
+
+  // YTD = sum of all months in same year as current month
+  const year = current.period.slice(0, 4);
+  const sameYear = hist.filter(h => h.period.startsWith(year));
+  const ytdTotal = sameYear.reduce((s, h) => s + h.montant_plan, 0);
+
+  bar.style.display = 'flex';
+  $('ytd-year').textContent = year;
+  $('ytd-val').textContent = ytdTotal.toFixed(2);
+  $('ytd-months').textContent = `${sameYear.length} mois comptabilisé${sameYear.length > 1 ? 's' : ''}`;
+
+  // Projection fin de mois basée sur la date d'extraction
+  const lastUpdated = data ? new Date(data.last_updated_iso) : null;
+  if (lastUpdated && current.total_couverts_web > 0) {
+    const dayOfMonth = lastUpdated.getDate();
+    const daysInMonth = new Date(lastUpdated.getFullYear(), lastUpdated.getMonth() + 1, 0).getDate();
+    if (dayOfMonth < daysInMonth) {
+      const projectedCouverts = Math.round(current.total_couverts_web * daysInMonth / dayOfMonth);
+      const projectedAmount = planCostCalc(projectedCouverts, current.panier_moyen || 30.45);
+      $('ytd-proj').textContent = `Proj. fin de mois : ~${projectedAmount.toFixed(0)} €`;
+    } else {
+      $('ytd-proj').textContent = '';
+    }
+  } else {
+    $('ytd-proj').textContent = '';
+  }
+}
+
+function planCostCalc(couverts, panier) {
+  if (couverts === 0) return 30;
+  const B = [[1,50,0.016],[51,100,0.013],[101,200,0.010],[201,300,0.007],[301,500,0.004]];
+  let r = 0;
+  for (const [lo, hi, t] of B) {
+    if (couverts >= lo) r += (Math.min(couverts, hi) - lo + 1) * panier * t;
+  }
+  return Math.min(30 + r, 150);
 }
 
 // ─── Data loading ─────────────────────────────────────────────────────────────
