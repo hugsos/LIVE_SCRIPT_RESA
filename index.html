@@ -68,7 +68,10 @@
       width: 6px; height: 6px; border-radius: 50%;
       background: var(--teal); flex-shrink: 0;
       animation: pulse-anim 2.5s ease-in-out infinite;
+      transition: background 0.4s;
     }
+    .pulse.stale  { background: #FFB74D; }
+    .pulse.old    { background: var(--red); animation: none; }
     @keyframes pulse-anim {
       0%,100% { opacity:1; transform:scale(1); }
       50%      { opacity:0.3; transform:scale(0.75); }
@@ -426,6 +429,7 @@
         <span class="hero-amount" id="hero-val">—</span>
       </div>
       <div class="hero-month" id="hero-mois">—</div>
+      <div id="hero-proj" style="display:none;font-size:11px;color:var(--teal);opacity:0.8;margin-top:5px"></div>
       <div class="progress-wrap">
         <div class="progress-row">
           <span id="prog-left">—</span>
@@ -579,11 +583,20 @@ function formatAge(iso) {
   const dm = Math.floor((now - d) / 60000);
   const dh = Math.floor(dm / 60);
   const dd = Math.floor(dh / 24);
-  if (dm < 2)  return 'À l\'instant';
-  if (dm < 60) return `Il y a ${dm} min`;
-  if (dh < 24) return `Aujourd'hui à ${d.getHours()}h${String(d.getMinutes()).padStart(2,'0')}`;
+
+  // Freshness indicator on pulse dot
+  const pulse = document.querySelector('.pulse');
+  if (pulse) {
+    pulse.classList.remove('stale', 'old');
+    if (dh > 48) pulse.classList.add('old');
+    else if (dh > 24) pulse.classList.add('stale');
+  }
+
+  if (dm < 2)   return 'À l\'instant';
+  if (dm < 60)  return `Il y a ${dm} min`;
+  if (dh < 24)  return `Aujourd'hui à ${d.getHours()}h${String(d.getMinutes()).padStart(2,'0')}`;
   if (dd === 1) return `Hier à ${d.getHours()}h${String(d.getMinutes()).padStart(2,'0')}`;
-  if (dd < 7)  return `Il y a ${dd} jours`;
+  if (dd < 7)   return `Il y a ${dd} jours`;
   return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
 }
 
@@ -622,6 +635,9 @@ function renderMonth(d, data) {
   const pct = Math.min((d.montant_plan / 150) * 100, 100);
   $('prog-left').textContent = d.montant_plan.toFixed(2) + ' €';
   setTimeout(() => { $('prog-fill').style.width = pct + '%'; }, 80);
+
+  // Projection hero (mois courant uniquement)
+  renderHeroProj(d, data);
 
   // Annual commission
   renderAnnual(d, data);
@@ -785,6 +801,35 @@ function rr(ctx, x, y, w, h, r) {
   ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
 }
 
+// ─── Hero projection (mois courant seulement) ────────────────────────────────
+function isCurrentMonth(period) {
+  const now = new Date();
+  const cur = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  return period === cur;
+}
+
+function calcProjection(d, lastUpdatedIso) {
+  if (!isCurrentMonth(d.period)) return null;
+  if (!d.total_couverts_web || d.total_couverts_web === 0) return null;
+  const ref = new Date(lastUpdatedIso);
+  const dayElapsed = ref.getDate();
+  const daysInMonth = new Date(ref.getFullYear(), ref.getMonth() + 1, 0).getDate();
+  if (dayElapsed >= daysInMonth) return null;
+  const projCvts = Math.round(d.total_couverts_web * daysInMonth / dayElapsed);
+  return planCostCalc(projCvts, d.panier_moyen || 30.45);
+}
+
+function renderHeroProj(d, data) {
+  const el = $('hero-proj');
+  const proj = data ? calcProjection(d, data.last_updated_iso) : null;
+  if (proj !== null) {
+    el.style.display = 'block';
+    el.textContent = `Projection fin de mois : ~${proj.toFixed(0)} €`;
+  } else {
+    el.style.display = 'none';
+  }
+}
+
 // ─── Annual commission ────────────────────────────────────────────────────────
 function renderAnnual(current, data) {
   const hist = (data || appData || {}).history || [];
@@ -801,19 +846,9 @@ function renderAnnual(current, data) {
   $('annual-val').textContent = total.toFixed(2);
   $('annual-months').textContent = `${sameYear.length} mois comptabilisé${sameYear.length > 1 ? 's' : ''}`;
 
-  // Projection fin de mois
-  const lastUpdated = data ? new Date(data.last_updated_iso) : null;
-  if (lastUpdated && current.total_couverts_web > 0) {
-    const day = lastUpdated.getDate();
-    const daysInMonth = new Date(lastUpdated.getFullYear(), lastUpdated.getMonth() + 1, 0).getDate();
-    if (day < daysInMonth) {
-      const projCvts = Math.round(current.total_couverts_web * daysInMonth / day);
-      const projAmt  = planCostCalc(projCvts, current.panier_moyen || 30.45);
-      $('annual-proj').textContent = `Proj. fin de mois : ~${projAmt.toFixed(0)} €`;
-    } else {
-      $('annual-proj').textContent = '';
-    }
-  }
+  // Projection fin de mois (mois courant uniquement)
+  const proj = data ? calcProjection(current, data.last_updated_iso) : null;
+  $('annual-proj').textContent = proj !== null ? `Proj. fin de mois : ~${proj.toFixed(0)} €` : '';
 
   // Mini bar chart
   const barsEl = $('annual-bars');
