@@ -453,7 +453,6 @@
         </div>
         <div class="annual-right">
           <div class="annual-months" id="annual-months">— mois</div>
-          <div class="annual-proj" id="annual-proj"></div>
         </div>
       </div>
       <div class="annual-bars" id="annual-bars"></div>
@@ -687,7 +686,7 @@ function renderMonth(d, data) {
       card.addEventListener('click', () => {
         activeIdx = i;
         document.querySelectorAll('.h-card').forEach((c, j) => c.classList.toggle('active', j === i));
-        renderMonth(h, null);
+        renderMonth(h, appData);
       });
       scroll.appendChild(card);
     });
@@ -845,10 +844,6 @@ function renderAnnual(current, data) {
   $('annual-year').textContent = year;
   $('annual-val').textContent = total.toFixed(2);
   $('annual-months').textContent = `${sameYear.length} mois comptabilisé${sameYear.length > 1 ? 's' : ''}`;
-
-  // Projection fin de mois (mois courant uniquement)
-  const proj = data ? calcProjection(current, data.last_updated_iso) : null;
-  $('annual-proj').textContent = proj !== null ? `Proj. fin de mois : ~${proj.toFixed(0)} €` : '';
 
   // Mini bar chart
   const barsEl = $('annual-bars');
