@@ -151,22 +151,38 @@
     }
     .zenchef-saving.negative { color: var(--red); }
 
-    /* ── YTD bar ──────────────────────────────────────── */
-    .ytd {
+    /* ── Annual section ───────────────────────────────── */
+    .annual {
       background: var(--s1); border: 1px solid var(--border);
-      border-radius: 16px; padding: 13px 16px;
+      border-radius: 16px; overflow: hidden; margin: 10px 0;
+    }
+    .annual-top {
       display: flex; align-items: center; justify-content: space-between;
-      margin: 10px 0;
+      padding: 13px 16px 10px;
     }
-    .ytd-left { }
-    .ytd-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
-    .ytd-val {
+    .annual-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+    .annual-val {
       font-family: 'DM Mono', monospace;
-      font-size: 20px; font-weight: 500; color: #fff; margin-top: 3px;
+      font-size: 22px; font-weight: 500; color: #fff; margin-top: 3px;
+      display: flex; align-items: baseline; gap: 3px;
     }
-    .ytd-right { text-align: right; }
-    .ytd-months { font-size: 11px; color: var(--muted); }
-    .ytd-proj { font-size: 10px; color: var(--teal); margin-top: 3px; }
+    .annual-right { text-align: right; }
+    .annual-months { font-size: 11px; color: var(--muted); }
+    .annual-proj { font-size: 10px; color: var(--teal); margin-top: 3px; }
+    /* Monthly bars */
+    .annual-bars {
+      padding: 0 16px 14px;
+      display: flex; align-items: flex-end; gap: 6px; height: 52px;
+    }
+    .bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .bar {
+      width: 100%; border-radius: 4px 4px 0 0;
+      background: var(--s3); min-height: 3px;
+      transition: height 0.8s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative; cursor: default;
+    }
+    .bar.active { background: var(--blue); }
+    .bar-lbl { font-size: 8px; color: var(--dim); text-align: center; white-space: nowrap; }
 
     /* ── KPI row ──────────────────────────────────────── */
     .kpis {
@@ -421,16 +437,22 @@
       </div>
     </div>
 
-    <!-- YTD + Projection -->
-    <div class="ytd" id="ytd-bar" style="display:none">
-      <div class="ytd-left">
-        <div class="ytd-label">Cumul <span id="ytd-year">2026</span></div>
-        <div class="ytd-val"><span id="ytd-val">—</span> <span style="font-size:12px;opacity:.5">€</span></div>
+    <!-- Annual commission -->
+    <div class="annual" id="annual-section" style="display:none">
+      <div class="annual-top">
+        <div>
+          <div class="annual-label">Commissions <span id="annual-year">2026</span></div>
+          <div class="annual-val">
+            <span id="annual-val">—</span>
+            <span style="font-size:13px;opacity:.5">€</span>
+          </div>
+        </div>
+        <div class="annual-right">
+          <div class="annual-months" id="annual-months">— mois</div>
+          <div class="annual-proj" id="annual-proj"></div>
+        </div>
       </div>
-      <div class="ytd-right">
-        <div class="ytd-months" id="ytd-months">— mois</div>
-        <div class="ytd-proj" id="ytd-proj"></div>
-      </div>
+      <div class="annual-bars" id="annual-bars"></div>
     </div>
 
     <!-- KPIs -->
@@ -601,8 +623,8 @@ function renderMonth(d, data) {
   $('prog-left').textContent = d.montant_plan.toFixed(2) + ' €';
   setTimeout(() => { $('prog-fill').style.width = pct + '%'; }, 80);
 
-  // YTD + Projection
-  renderYTD(d, data);
+  // Annual commission
+  renderAnnual(d, data);
 
   // KPIs
   countUp('kpi-cvts', d.total_couverts_web || 0);
@@ -763,37 +785,56 @@ function rr(ctx, x, y, w, h, r) {
   ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
 }
 
-// ─── YTD + Projection ────────────────────────────────────────────────────────
-function renderYTD(current, data) {
-  const hist = data ? data.history : appData ? appData.history : [];
-  const bar = $('ytd-bar');
-  if (!hist || hist.length === 0) { bar.style.display = 'none'; return; }
+// ─── Annual commission ────────────────────────────────────────────────────────
+function renderAnnual(current, data) {
+  const hist = (data || appData || {}).history || [];
+  const sec = $('annual-section');
+  if (hist.length === 0) { sec.style.display = 'none'; return; }
 
-  // YTD = sum of all months in same year as current month
   const year = current.period.slice(0, 4);
   const sameYear = hist.filter(h => h.period.startsWith(year));
-  const ytdTotal = sameYear.reduce((s, h) => s + h.montant_plan, 0);
+  if (sameYear.length === 0) { sec.style.display = 'none'; return; }
 
-  bar.style.display = 'flex';
-  $('ytd-year').textContent = year;
-  $('ytd-val').textContent = ytdTotal.toFixed(2);
-  $('ytd-months').textContent = `${sameYear.length} mois comptabilisé${sameYear.length > 1 ? 's' : ''}`;
+  sec.style.display = 'block';
+  const total = sameYear.reduce((s, h) => s + h.montant_plan, 0);
+  $('annual-year').textContent = year;
+  $('annual-val').textContent = total.toFixed(2);
+  $('annual-months').textContent = `${sameYear.length} mois comptabilisé${sameYear.length > 1 ? 's' : ''}`;
 
-  // Projection fin de mois basée sur la date d'extraction
+  // Projection fin de mois
   const lastUpdated = data ? new Date(data.last_updated_iso) : null;
   if (lastUpdated && current.total_couverts_web > 0) {
-    const dayOfMonth = lastUpdated.getDate();
+    const day = lastUpdated.getDate();
     const daysInMonth = new Date(lastUpdated.getFullYear(), lastUpdated.getMonth() + 1, 0).getDate();
-    if (dayOfMonth < daysInMonth) {
-      const projectedCouverts = Math.round(current.total_couverts_web * daysInMonth / dayOfMonth);
-      const projectedAmount = planCostCalc(projectedCouverts, current.panier_moyen || 30.45);
-      $('ytd-proj').textContent = `Proj. fin de mois : ~${projectedAmount.toFixed(0)} €`;
+    if (day < daysInMonth) {
+      const projCvts = Math.round(current.total_couverts_web * daysInMonth / day);
+      const projAmt  = planCostCalc(projCvts, current.panier_moyen || 30.45);
+      $('annual-proj').textContent = `Proj. fin de mois : ~${projAmt.toFixed(0)} €`;
     } else {
-      $('ytd-proj').textContent = '';
+      $('annual-proj').textContent = '';
     }
-  } else {
-    $('ytd-proj').textContent = '';
   }
+
+  // Mini bar chart
+  const barsEl = $('annual-bars');
+  barsEl.innerHTML = '';
+  const maxAmt = Math.max(...sameYear.map(h => h.montant_plan));
+  const BAR_MAX_H = 36; // px
+
+  sameYear.forEach(h => {
+    const isCurrent = h.period === current.period;
+    const heightPx = Math.max(3, Math.round((h.montant_plan / maxAmt) * BAR_MAX_H));
+    const shortMois = (h.periode_label || h.period).slice(0, 3);
+    const wrap = document.createElement('div');
+    wrap.className = 'bar-wrap';
+    wrap.innerHTML = `
+      <div class="bar${isCurrent ? ' active' : ''}"
+           style="height:${heightPx}px"
+           title="${h.periode_label || h.period} : ${h.montant_plan.toFixed(2)} €"></div>
+      <div class="bar-lbl">${shortMois}</div>
+    `;
+    barsEl.appendChild(wrap);
+  });
 }
 
 function planCostCalc(couverts, panier) {
