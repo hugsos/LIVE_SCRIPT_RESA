@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#070F1C">
+  <title>Live · L'Authentique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:     #070F1C;
+      --s1:     #0D1B2E;
+      --s2:     #14263E;
+      --s3:     #1C3155;
+      --border: rgba(80,140,220,0.10);
+      --border2:rgba(80,140,220,0.20);
+      --blue:   #3D9EFF;
+      --teal:   #00E5C0;
+      --teal-g: rgba(0,229,192,0.35);
+      --teal-d: rgba(0,229,192,0.10);
+      --text:   #C6D9EE;
+      --muted:  #6B8BA8;
+      --dim:    #3D5470;
+      --red:    #FF5E5E;
+      --green:  #4DFFA1;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: var(--bg); }
+
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 20% 0%,   rgba(61,158,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 100%, rgba(0,229,192,0.05) 0%, transparent 60%);
+      color: var(--text);
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    .hdr {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,15,28,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(14px + env(safe-area-inset-top)) 18px 12px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .hdr-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; font-weight: 700; color: #fff; line-height: 1;
+    }
+    .hdr-sub {
+      font-size: 11px; color: var(--dim); margin-top: 3px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+      animation: pulse-anim 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse-anim {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.3; transform:scale(0.75); }
+    }
+    .btn-icon {
+      width: 34px; height: 34px; border-radius: 10px;
+      background: var(--s2); border: 1px solid var(--border);
+      color: var(--muted); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-icon:active { background: var(--s3); transform: scale(0.93); }
+
+    /* ── Content ──────────────────────────────────────── */
+    .content { padding: 0 14px; }
+
+    /* ── Hero card ────────────────────────────────────── */
+    .hero {
+      margin: 14px 0 10px;
+      background: linear-gradient(140deg, var(--s2) 0%, #1A3560 100%);
+      border: 1px solid var(--border2);
+      border-radius: 22px; padding: 26px 22px 22px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(0,229,192,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-label {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--dim);
+      margin-bottom: 8px;
+    }
+    .hero-amount-row { display: flex; align-items: baseline; gap: 4px; }
+    .hero-currency {
+      font-family: 'DM Mono', monospace;
+      font-size: 28px; font-weight: 400; color: var(--teal); opacity: 0.7;
+    }
+    .hero-amount {
+      font-family: 'DM Mono', monospace;
+      font-size: 58px; font-weight: 500; color: var(--teal); line-height: 1;
+      letter-spacing: -0.03em;
+      text-shadow: 0 0 48px var(--teal-g);
+    }
+    .hero-month {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 14px; color: var(--muted); margin-top: 6px;
+    }
+
+    /* Progress */
+    .progress-wrap { margin-top: 20px; }
+    .progress-row {
+      display: flex; justify-content: space-between;
+      font-size: 10px; color: var(--dim); margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 5px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      box-shadow: 0 0 10px var(--teal-g);
+      width: 0; transition: width 1.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    /* ── KPI row ──────────────────────────────────────── */
+    .kpis {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 10px 0;
+    }
+    .kpi {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 16px; padding: 13px 10px; text-align: center;
+    }
+    .kpi-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 22px; font-weight: 500; color: #fff;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+    .kpi-lbl {
+      font-size: 9px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.07em;
+      color: var(--dim); margin-top: 5px;
+    }
+
+    /* ── Section ──────────────────────────────────────── */
+    .sec { margin: 16px 0; }
+    .sec-title {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--dim);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .sec-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ── Tranches ─────────────────────────────────────── */
+    .tranches {
+      background: var(--s1); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    }
+    .tr-row {
+      display: flex; align-items: center;
+      padding: 11px 16px; border-bottom: 1px solid var(--border);
+      font-size: 12.5px;
+    }
+    .tr-row:last-child { border-bottom: none; }
+    .tr-row.total { background: rgba(61,158,255,0.05); }
+    .tr-name { flex: 1; color: var(--text); }
+    .tr-calc {
+      font-family: 'DM Mono', monospace; font-size: 9.5px; color: var(--dim);
+      flex: 1.2; text-align: center; padding: 0 6px;
+    }
+    .tr-amt {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--text); font-weight: 500; min-width: 62px; text-align: right;
+    }
+    .tr-row.total .tr-amt { color: var(--teal); font-size: 15px; }
+
+    /* ── History ──────────────────────────────────────── */
+    .history-scroll {
+      display: flex; gap: 10px;
+      overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .history-scroll::-webkit-scrollbar { display: none; }
+    .h-card {
+      flex-shrink: 0; min-width: 112px;
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px 14px 12px;
+      cursor: pointer; transition: all 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .h-card:active { transform: scale(0.96); }
+    .h-card.active { border-color: var(--blue); background: var(--s2); }
+    .h-mois {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 11.5px; color: var(--muted); margin-bottom: 6px;
+    }
+    .h-amt {
+      font-family: 'DM Mono', monospace;
+      font-size: 20px; font-weight: 500; color: #fff; line-height: 1;
+    }
+    .h-cvts { font-size: 10px; color: var(--dim); margin-top: 4px; }
+
+    /* ── Chart ────────────────────────────────────────── */
+    .chart-card {
+      background: var(--s1); border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px;
+    }
+    .chart-wrap { position: relative; height: 190px; }
+
+    /* ── Sticky refresh ───────────────────────────────── */
+    .sticky-btm {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(7,15,28,1) 55%, transparent);
+      z-index: 50;
+    }
+    .btn-refresh {
+      width: 100%; height: 52px; border-radius: 16px;
+      background: var(--blue); border: none;
+      color: #fff; font-family: 'Outfit', sans-serif;
+      font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px;
+      transition: transform 0.1s, box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      box-shadow: 0 4px 22px rgba(61,158,255,0.40);
+    }
+    .btn-refresh:active:not(:disabled) { transform: scale(0.97); }
+    .btn-refresh:disabled {
+      background: var(--s3); color: var(--muted);
+      box-shadow: none; cursor: default;
+    }
+    .spinner {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.25); border-top-color: #fff;
+      animation: spin 0.75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Settings modal ───────────────────────────────── */
+    .overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(10px);
+      display: flex; align-items: flex-end;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.28s;
+    }
+    .overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--s1); border: 1px solid var(--border2);
+      border-radius: 24px 24px 0 0; width: 100%; max-width: 480px; margin: 0 auto;
+      padding: 20px 18px calc(22px + env(safe-area-inset-bottom));
+      transform: translateY(110%);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .overlay.open .modal { transform: translateY(0); }
+    .modal-handle {
+      width: 34px; height: 4px; background: var(--dim);
+      border-radius: 99px; margin: 0 auto 18px;
+    }
+    .modal-title { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .modal-sub { font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+    .fg { margin-bottom: 12px; }
+    .fg label {
+      display: block; font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 5px;
+    }
+    .fg input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border2);
+      border-radius: 10px; color: var(--text);
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      padding: 10px 13px; outline: none; transition: border-color 0.2s;
+    }
+    .fg input:focus { border-color: var(--blue); }
+    .fg-hint { font-size: 10px; color: var(--dim); margin-top: 4px; }
+    .btn-save {
+      width: 100%; height: 48px; border-radius: 14px;
+      background: var(--blue); border: none; color: #fff;
+      font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600;
+      cursor: pointer; margin-top: 6px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Toast ────────────────────────────────────────── */
+    .toast {
+      position: fixed; top: 74px; left: 50%;
+      transform: translateX(-50%) translateY(-16px);
+      background: var(--s3); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 9px 18px;
+      font-size: 13px; font-weight: 500; color: #fff;
+      z-index: 300; opacity: 0; transition: all 0.28s;
+      white-space: nowrap; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.ok  { border-color: var(--teal); color: var(--teal); }
+    .toast.err { border-color: var(--red);  color: var(--red); }
+
+    /* ── Skeleton ─────────────────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+    .sk {
+      background: linear-gradient(90deg, var(--s1) 25%, var(--s2) 50%, var(--s1) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite;
+      border-radius: 10px;
+    }
+
+    /* ── Empty ────────────────────────────────────────── */
+    .empty { text-align: center; padding: 70px 24px; color: var(--muted); }
+    .empty h2 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+    .empty p  { font-size: 14px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────── -->
+<header class="hdr">
+  <div>
+    <div class="hdr-title">L'Authentique</div>
+    <div class="hdr-sub">
+      <span class="pulse"></span>
+      <span id="last-upd">Chargement…</span>
+    </div>
+  </div>
+  <button class="btn-icon" id="btn-cfg" aria-label="Paramètres">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06
+               a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09
+               A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83
+               l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09
+               A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83
+               l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09
+               a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83
+               l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09
+               a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  </button>
+</header>
+
+<!-- ── Main content ─────────────────────────────────────────── -->
+<main class="content">
+
+  <!-- Skeleton -->
+  <div id="skeleton">
+    <div class="sk" style="height:168px;border-radius:22px;margin:14px 0 10px"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0">
+      <div class="sk" style="height:68px;border-radius:16px"></div>
+      <div class="sk" style="height:68px;border-radius:16px"></div>
+      <div class="sk" style="height:68px;border-radius:16px"></div>
+    </div>
+    <div class="sk" style="height:140px;border-radius:16px;margin:16px 0"></div>
+  </div>
+
+  <!-- Dashboard (hidden until data loads) -->
+  <div id="dash" style="display:none">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-label">Commission ce mois</div>
+      <div class="hero-amount-row">
+        <span class="hero-currency">€</span>
+        <span class="hero-amount" id="hero-val">—</span>
+      </div>
+      <div class="hero-month" id="hero-mois">—</div>
+      <div class="progress-wrap">
+        <div class="progress-row">
+          <span id="prog-left">—</span>
+          <span>Plafond 150 €</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi">
+        <div class="kpi-val" id="kpi-cvts">—</div>
+        <div class="kpi-lbl">Couverts</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" id="kpi-pan">—</div>
+        <div class="kpi-lbl">€ / couvert</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" id="kpi-web">—</div>
+        <div class="kpi-lbl">Résa web</div>
+      </div>
+    </div>
+
+    <!-- Tranches -->
+    <div class="sec">
+      <div class="sec-title">Détail de facturation</div>
+      <div class="tranches" id="tranches"></div>
+    </div>
+
+    <!-- History (shown only if > 1 month) -->
+    <div class="sec" id="sec-history" style="display:none">
+      <div class="sec-title">Historique</div>
+      <div class="history-scroll" id="history"></div>
+    </div>
+
+    <!-- Billing curve -->
+    <div class="sec">
+      <div class="sec-title">Courbe de facturation</div>
+      <div class="chart-card">
+        <div class="chart-wrap">
+          <canvas id="chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Empty state -->
+  <div id="empty" style="display:none">
+    <div class="empty">
+      <h2>Aucune donnée</h2>
+      <p>Configure les paramètres GitHub puis déclenche la première extraction.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── Sticky refresh button ────────────────────────────────── -->
+<div class="sticky-btm">
+  <button class="btn-refresh" id="btn-refresh">
+    <svg id="refresh-ico" width="18" height="18" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </svg>
+    <span id="refresh-lbl">Actualiser maintenant</span>
+  </button>
+</div>
+
+<!-- ── Settings modal ───────────────────────────────────────── -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Paramètres GitHub Actions</div>
+    <div class="modal-sub">
+      Configure la connexion pour déclencher le script à distance depuis ton téléphone.
+    </div>
+    <div class="fg">
+      <label for="in-owner">GitHub Owner</label>
+      <input type="text"     id="in-owner" placeholder="hugsos"               autocapitalize="none">
+    </div>
+    <div class="fg">
+      <label for="in-repo">Nom du repo</label>
+      <input type="text"     id="in-repo"  placeholder="reservation-dashboard" autocapitalize="none">
+    </div>
+    <div class="fg">
+      <label for="in-pat">Personal Access Token</label>
+      <input type="password" id="in-pat"   placeholder="ghp_xxxxxxxxxxxx"      autocomplete="off">
+      <div class="fg-hint">Token avec scope <strong>workflow</strong>. Stocké uniquement dans ce navigateur.</div>
+    </div>
+    <button class="btn-save" id="btn-save">Enregistrer</button>
+  </div>
+</div>
+
+<!-- ── Toast ────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Constants ────────────────────────────────────────────────────────────────
+const WORKFLOW_FILE = 'update-dashboard.yml';
+const MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin',
+               'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+function label(monthFolder) {
+  const [y, m] = monthFolder.split('-');
+  return MOIS[parseInt(m) - 1] + ' ' + y;
+}
+
+function getCfg() {
+  try { return JSON.parse(localStorage.getItem('live_cfg') || '{}'); }
+  catch { return {}; }
+}
+function saveCfg(c) { localStorage.setItem('live_cfg', JSON.stringify(c)); }
+
+function toast(msg, type = '') {
+  const el = $('toast');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 3500);
+}
+
+function formatAge(iso) {
+  if (!iso) return 'Jamais mis à jour';
+  const d = new Date(iso), now = new Date();
+  const dm = Math.floor((now - d) / 60000);
+  const dh = Math.floor(dm / 60);
+  const dd = Math.floor(dh / 24);
+  if (dm < 2)  return 'À l\'instant';
+  if (dm < 60) return `Il y a ${dm} min`;
+  if (dh < 24) return `Aujourd'hui à ${d.getHours()}h${String(d.getMinutes()).padStart(2,'0')}`;
+  if (dd === 1) return `Hier à ${d.getHours()}h${String(d.getMinutes()).padStart(2,'0')}`;
+  if (dd < 7)  return `Il y a ${dd} jours`;
+  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+}
+
+function countUp(id, target, fmt = v => Math.round(v)) {
+  const el = $(id);
+  if (!el) return;
+  const t0 = performance.now(), dur = 900;
+  (function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(target * e);
+    if (p < 1) requestAnimationFrame(tick);
+    else        el.textContent = fmt(target);
+  })(t0);
+}
+
+// ─── Render ────────────────────────────────────────────────────────────────────
+let appData = null, activeIdx = 0;
+let chartInst = null;
+
+function renderDashboard(data) {
+  $('skeleton').style.display = 'none';
+  $('dash').style.display = 'block';
+  appData = data;
+  activeIdx = (data.history || []).length - 1;
+  $('last-upd').textContent = formatAge(data.last_updated_iso);
+  renderMonth(data.current_month, data);
+}
+
+function renderMonth(d, data) {
+  // Hero
+  $('hero-mois').textContent = d.periode_label || label(d.period);
+  countUp('hero-val', d.montant_plan, v => v.toFixed(2));
+
+  // Progress
+  const pct = Math.min((d.montant_plan / 150) * 100, 100);
+  $('prog-left').textContent = d.montant_plan.toFixed(2) + ' €';
+  setTimeout(() => { $('prog-fill').style.width = pct + '%'; }, 80);
+
+  // KPIs
+  countUp('kpi-cvts', d.total_couverts_web || 0);
+  $('kpi-pan').textContent = (d.panier_moyen || 30.45).toFixed(2);
+  $('kpi-web').textContent = d.total_reservations_web || '—';
+
+  // Tranches
+  const box = $('tranches');
+  box.innerHTML = '';
+  // Base row
+  box.innerHTML += `<div class="tr-row">
+    <span class="tr-name">Base fixe mensuelle</span>
+    <span class="tr-calc">—</span>
+    <span class="tr-amt">30,00 €</span>
+  </div>`;
+  (d.detail_tranches || []).forEach(t => {
+    box.innerHTML += `<div class="tr-row">
+      <span class="tr-name">Tr. ${t.range} cvts</span>
+      <span class="tr-calc">${t.taux}% × ${t.n} × ${t.panier} €</span>
+      <span class="tr-amt">${parseFloat(t.montant).toFixed(2)} €</span>
+    </div>`;
+  });
+  box.innerHTML += `<div class="tr-row total">
+    <span class="tr-name" style="font-weight:600">Total (${d.total_couverts_web} couverts)</span>
+    <span class="tr-calc"></span>
+    <span class="tr-amt">${d.montant_plan.toFixed(2)} €</span>
+  </div>`;
+
+  // History
+  const hist = data ? data.history : appData ? appData.history : [];
+  const secH = $('sec-history');
+  if (hist && hist.length > 1) {
+    secH.style.display = 'block';
+    const scroll = $('history');
+    scroll.innerHTML = '';
+    hist.forEach((h, i) => {
+      const card = document.createElement('div');
+      card.className = 'h-card' + (i === activeIdx ? ' active' : '');
+      card.innerHTML = `
+        <div class="h-mois">${h.periode_label || label(h.period)}</div>
+        <div class="h-amt">${h.montant_plan.toFixed(2)} <span style="font-size:11px;opacity:.5">€</span></div>
+        <div class="h-cvts">${h.total_couverts_web} couverts</div>
+      `;
+      card.addEventListener('click', () => {
+        activeIdx = i;
+        document.querySelectorAll('.h-card').forEach((c, j) => c.classList.toggle('active', j === i));
+        renderMonth(h, null);
+      });
+      scroll.appendChild(card);
+    });
+    setTimeout(() => {
+      const active = scroll.querySelector('.active');
+      if (active) active.scrollIntoView({ inline: 'end', behavior: 'smooth', block: 'nearest' });
+    }, 120);
+  } else {
+    secH.style.display = 'none';
+  }
+
+  // Chart
+  renderChart(d);
+}
+
+function renderChart(d) {
+  if (chartInst) { chartInst.destroy(); chartInst = null; }
+  const panier = d.panier_moyen || 30.45;
+  const B = [[1,50,0.016],[51,100,0.013],[101,200,0.010],[201,300,0.007],[301,500,0.004]];
+  function cost(c) {
+    if (c === 0) return 30;
+    let r = 0;
+    for (const [lo, hi, t] of B) {
+      if (c >= lo) r += (Math.min(c, hi) - lo + 1) * panier * t;
+    }
+    return Math.min(30 + r, 150);
+  }
+  const lbs = [], vals = [];
+  for (let c = 0; c <= 500; c += 5) { lbs.push(c); vals.push(cost(c)); }
+  const cvts = d.total_couverts_web || 0;
+  const mMois = cost(cvts);
+  const ni = lbs.findIndex(v => v >= cvts);
+
+  Chart.defaults.font.family = "'Outfit', sans-serif";
+  chartInst = new Chart($('chart'), {
+    type: 'line',
+    data: {
+      labels: lbs,
+      datasets: [
+        {
+          data: vals, borderColor: '#3D9EFF', borderWidth: 2,
+          backgroundColor: 'rgba(61,158,255,0.07)', fill: true,
+          tension: 0.3, pointRadius: 0,
+        },
+        {
+          data: lbs.map((_, i) => i === ni ? mMois : null),
+          borderColor: '#00E5C0', backgroundColor: '#00E5C0',
+          pointRadius: 7, showLine: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, animation: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: {
+          grid: { display: false }, border: { display: false },
+          ticks: {
+            color: '#3D5470', font: { size: 9 },
+            callback(v, i) { return lbs[i] % 100 === 0 ? lbs[i] : ''; },
+            maxRotation: 0,
+          }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,0.04)' }, border: { display: false },
+          ticks: { color: '#3D5470', font: { size: 9 }, callback: v => v + '€' },
+          min: 0, max: 165,
+        }
+      }
+    },
+    plugins: [{
+      id: 'ann',
+      afterDraw({ ctx, scales: { x, y }, chartArea: ca }) {
+        ctx.save();
+        // Plafond 150€
+        const y150 = y.getPixelForValue(150);
+        ctx.strokeStyle = 'rgba(255,94,94,0.45)';
+        ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(ca.left, y150); ctx.lineTo(ca.right, y150); ctx.stroke();
+        ctx.fillStyle = '#FF5E5E'; ctx.font = '9px Outfit,sans-serif';
+        ctx.textAlign = 'right'; ctx.fillText('150€ plafond', ca.right, y150 - 4);
+        // Point du mois
+        if (ni >= 0) {
+          const xp = x.getPixelForValue(ni), yp = y.getPixelForValue(mMois);
+          ctx.strokeStyle = 'rgba(0,229,192,0.25)'; ctx.lineWidth = 1;
+          ctx.setLineDash([3, 3]);
+          ctx.beginPath(); ctx.moveTo(xp, ca.bottom); ctx.lineTo(xp, yp); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(ca.left, yp);   ctx.lineTo(xp, yp); ctx.stroke();
+          ctx.setLineDash([]);
+          // Bubble
+          const bw = 82, bh = 30;
+          const bx = xp + bw + 10 < ca.right ? xp + 8 : xp - bw - 8;
+          const by = yp - bh / 2;
+          ctx.fillStyle = 'rgba(0,229,192,0.10)'; ctx.strokeStyle = '#00E5C0'; ctx.lineWidth = 1;
+          rr(ctx, bx, by, bw, bh, 6); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#00E5C0'; ctx.textAlign = 'left';
+          ctx.font = 'bold 8.5px Outfit,sans-serif'; ctx.fillText(`${cvts} couverts`, bx + 6, by + 12);
+          ctx.font = 'bold 11px Outfit,sans-serif';  ctx.fillText(`${mMois.toFixed(2)} €`, bx + 6, by + 25);
+        }
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function rr(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+}
+
+// ─── Data loading ─────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const res = await fetch('./data.json?' + Date.now());
+    if (!res.ok) throw new Error('no data');
+    const data = await res.json();
+    renderDashboard(data);
+  } catch {
+    $('skeleton').style.display = 'none';
+    $('empty').style.display = 'block';
+  }
+}
+
+// ─── Settings modal ───────────────────────────────────────────────────────────
+const overlay = $('overlay');
+
+$('btn-cfg').addEventListener('click', () => {
+  const cfg = getCfg();
+  $('in-owner').value = cfg.owner || 'hugsos';
+  $('in-repo').value  = cfg.repo  || '';
+  $('in-pat').value   = cfg.pat   || '';
+  overlay.classList.add('open');
+});
+overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+$('btn-save').addEventListener('click', () => {
+  const owner = $('in-owner').value.trim();
+  const repo  = $('in-repo').value.trim();
+  const pat   = $('in-pat').value.trim();
+  if (!owner || !repo || !pat) { toast('Remplis tous les champs', 'err'); return; }
+  saveCfg({ owner, repo, pat });
+  overlay.classList.remove('open');
+  toast('Paramètres enregistrés ✓', 'ok');
+});
+
+// ─── Refresh / GitHub Actions trigger ────────────────────────────────────────
+function setRefreshState(loading) {
+  const btn = $('btn-refresh');
+  const ico = $('refresh-ico');
+  const lbl = $('refresh-lbl');
+  btn.disabled = loading;
+  if (loading) {
+    ico.outerHTML = '<div class="spinner" id="refresh-ico"></div>';
+    lbl.textContent = 'Extraction en cours…';
+  } else {
+    // Restore SVG
+    $('refresh-ico').outerHTML = `<svg id="refresh-ico" width="18" height="18" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 4 23 10 17 10"/>
+      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+    </svg>`;
+    lbl.textContent = 'Actualiser maintenant';
+  }
+}
+
+$('btn-refresh').addEventListener('click', async () => {
+  const cfg = getCfg();
+  if (!cfg.pat || !cfg.repo) {
+    toast('Configure d\'abord les paramètres ⚙️', 'err');
+    $('btn-cfg').click();
+    return;
+  }
+  setRefreshState(true);
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${cfg.owner || 'hugsos'}/${cfg.repo}/actions/workflows/${WORKFLOW_FILE}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${cfg.pat}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ref: 'main' }),
+      }
+    );
+    if (res.status === 204) {
+      toast('Script lancé — données dans ~5 min ✓', 'ok');
+      // Auto-reload after 5 min
+      setTimeout(() => { setRefreshState(false); loadData(); }, 5 * 60 * 1000);
+    } else {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || `HTTP ${res.status}`);
+    }
+  } catch (e) {
+    toast(`Erreur : ${e.message}`, 'err');
+    setRefreshState(false);
+  }
+});
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
