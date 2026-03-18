@@ -954,8 +954,11 @@ $('btn-refresh').addEventListener('click', async () => {
     );
     if (res.status === 204) {
       toast('Script lancé — données dans ~5 min ✓', 'ok');
-      // Auto-reload after 5 min
       setTimeout(() => { setRefreshState(false); loadData(); }, 5 * 60 * 1000);
+    } else if (res.status === 401) {
+      throw new Error('Token expiré ou invalide — va dans ⚙️ et génères-en un nouveau sur github.com/settings/tokens');
+    } else if (res.status === 404) {
+      throw new Error('Repo ou workflow introuvable — vérifie le nom du repo dans ⚙️');
     } else {
       const err = await res.json().catch(() => ({}));
       throw new Error(err.message || `HTTP ${res.status}`);
