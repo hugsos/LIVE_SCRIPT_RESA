@@ -666,7 +666,7 @@ function renderMonth(d, data) {
   // KPIs
   countUp('kpi-cvts', d.total_couverts_web || 0);
   $('kpi-pan').textContent = (d.panier_moyen || 30.45).toFixed(2);
-  $('kpi-web').textContent = d.total_reservations_web || '—';
+  countUp('kpi-web', d.total_reservations_web || 0);
 
   // CA généré
   const ca = (d.total_couverts_web || 0) * (d.panier_moyen || 30.45);
