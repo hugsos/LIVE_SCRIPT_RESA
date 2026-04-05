@@ -1,6 +1,6 @@
 {
-  "last_updated": "05/04/2026 à 00:26",
-  "last_updated_iso": "2026-04-04T22:26:20.845726+00:00",
+  "last_updated": "06/04/2026 à 00:27",
+  "last_updated_iso": "2026-04-05T22:27:32.673720+00:00",
   "current_month": {
     "period": "2026-04",
     "periode_label": "Avril 2026",
@@ -24,7 +24,7 @@
         "montant": 8.31
       }
     ],
-    "total_reservations_brut": 106,
+    "total_reservations_brut": 110,
     "total_reservations_web": 21
   },
   "history": [
@@ -129,7 +129,7 @@
           "montant": 8.31
         }
       ],
-      "total_reservations_brut": 106,
+      "total_reservations_brut": 110,
       "total_reservations_web": 21
     }
   ]
