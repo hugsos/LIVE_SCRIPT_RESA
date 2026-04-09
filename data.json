@@ -1,13 +1,13 @@
 {
-  "last_updated": "09/04/2026 à 00:36",
-  "last_updated_iso": "2026-04-08T22:36:25.957062+00:00",
+  "last_updated": "10/04/2026 à 00:38",
+  "last_updated_iso": "2026-04-09T22:38:24.696358+00:00",
   "current_month": {
     "period": "2026-04",
     "periode_label": "Avril 2026",
-    "total_couverts_web": 92,
+    "total_couverts_web": 101,
     "panier_moyen": 30.45,
-    "montant_plan": 70.99,
-    "detail_plan": "30€ base + 40.99€ commission",
+    "montant_plan": 74.46,
+    "detail_plan": "30€ base + 44.46€ commission",
     "detail_tranches": [
       {
         "range": "1–50",
@@ -19,13 +19,20 @@
       {
         "range": "51–100",
         "taux": "1.3",
-        "n": 42,
+        "n": 50,
         "panier": 30.45,
-        "montant": 16.63
+        "montant": 19.79
+      },
+      {
+        "range": "101–200",
+        "taux": "1.0",
+        "n": 1,
+        "panier": 30.45,
+        "montant": 0.3
       }
     ],
-    "total_reservations_brut": 126,
-    "total_reservations_web": 27
+    "total_reservations_brut": 135,
+    "total_reservations_web": 30
   },
   "history": [
     {
@@ -109,10 +116,10 @@
     {
       "period": "2026-04",
       "periode_label": "Avril 2026",
-      "total_couverts_web": 92,
+      "total_couverts_web": 101,
       "panier_moyen": 30.45,
-      "montant_plan": 70.99,
-      "detail_plan": "30€ base + 40.99€ commission",
+      "montant_plan": 74.46,
+      "detail_plan": "30€ base + 44.46€ commission",
       "detail_tranches": [
         {
           "range": "1–50",
@@ -124,13 +131,20 @@
         {
           "range": "51–100",
           "taux": "1.3",
-          "n": 42,
+          "n": 50,
           "panier": 30.45,
-          "montant": 16.63
+          "montant": 19.79
+        },
+        {
+          "range": "101–200",
+          "taux": "1.0",
+          "n": 1,
+          "panier": 30.45,
+          "montant": 0.3
         }
       ],
-      "total_reservations_brut": 126,
-      "total_reservations_web": 27
+      "total_reservations_brut": 135,
+      "total_reservations_web": 30
     }
   ]
 }
