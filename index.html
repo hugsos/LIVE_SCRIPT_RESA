@@ -702,6 +702,7 @@ function renderMonth(d, data) {
     const scroll = $('history');
     scroll.innerHTML = '';
     hist.forEach((h, i) => {
+      if (!h.period || h.period === 'unknown') return; // ignorer entrées invalides
       const card = document.createElement('div');
       card.className = 'h-card' + (i === activeIdx ? ' active' : '');
       card.innerHTML = `

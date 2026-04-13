@@ -145,17 +145,6 @@
       ],
       "total_reservations_brut": 154,
       "total_reservations_web": 39
-    },
-    {
-      "period": "unknown",
-      "periode_label": "unknown",
-      "total_couverts_web": 0,
-      "panier_moyen": 30.45,
-      "montant_plan": 30.0,
-      "detail_plan": "30€ base + 0.00€ commission",
-      "detail_tranches": [],
-      "total_reservations_brut": 3,
-      "total_reservations_web": 0
     }
   ]
 }
