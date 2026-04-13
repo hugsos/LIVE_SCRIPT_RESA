@@ -449,7 +449,7 @@
       <div class="progress-wrap">
         <div class="progress-row">
           <span id="prog-left">—</span>
-          <span>Plafond 150 €</span>
+          <span id="prog-plafond">Plafond 119 €</span>
         </div>
         <div class="progress-bar">
           <div class="progress-fill" id="prog-fill"></div>
@@ -659,7 +659,9 @@ function renderMonth(d, data) {
   countUp('hero-val', d.montant_plan, v => v.toFixed(2));
 
   // Progress
-  const pct = Math.min((d.montant_plan / 150) * 100, 100);
+  const plafond = (d.period && d.period >= '2026-03') ? 119 : 150;
+  $('prog-plafond').textContent = 'Plafond ' + plafond + ' €';
+  const pct = Math.min((d.montant_plan / plafond) * 100, 100);
   $('prog-left').textContent = d.montant_plan.toFixed(2) + ' €';
   setTimeout(() => { $('prog-fill').style.width = pct + '%'; }, 80);
 
@@ -748,13 +750,14 @@ function renderChart(d) {
   if (chartInst) { chartInst.destroy(); chartInst = null; }
   const panier = d.panier_moyen || 30.45;
   const B = [[1,50,0.016],[51,100,0.013],[101,200,0.010],[201,300,0.007],[301,500,0.004]];
+  const capCurve = (d.period && d.period >= '2026-03') ? 119 : 150;
   function cost(c) {
     if (c === 0) return 30;
     let r = 0;
     for (const [lo, hi, t] of B) {
       if (c >= lo) r += (Math.min(c, hi) - lo + 1) * panier * t;
     }
-    return Math.min(30 + r, 150);
+    return Math.min(30 + r, capCurve);
   }
   const lbs = [], vals = [];
   for (let c = 0; c <= 500; c += 5) { lbs.push(c); vals.push(cost(c)); }
@@ -803,13 +806,13 @@ function renderChart(d) {
       id: 'ann',
       afterDraw({ ctx, scales: { x, y }, chartArea: ca }) {
         ctx.save();
-        // Plafond 150€
-        const y150 = y.getPixelForValue(150);
+        // Ligne plafond
+        const yPlaf = y.getPixelForValue(capCurve);
         ctx.strokeStyle = 'rgba(255,94,94,0.45)';
         ctx.lineWidth = 1; ctx.setLineDash([4, 4]);
-        ctx.beginPath(); ctx.moveTo(ca.left, y150); ctx.lineTo(ca.right, y150); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ca.left, yPlaf); ctx.lineTo(ca.right, yPlaf); ctx.stroke();
         ctx.fillStyle = '#FF5E5E'; ctx.font = '9px Outfit,sans-serif';
-        ctx.textAlign = 'right'; ctx.fillText('150€ plafond', ca.right, y150 - 4);
+        ctx.textAlign = 'right'; ctx.fillText(capCurve + '€ plafond', ca.right, yPlaf - 4);
         // Point du mois
         if (ni >= 0) {
           const xp = x.getPixelForValue(ni), yp = y.getPixelForValue(mMois);
@@ -857,7 +860,7 @@ function calcProjection(d, lastUpdatedIso) {
   const daysInMonth = new Date(ref.getFullYear(), ref.getMonth() + 1, 0).getDate();
   if (dayElapsed >= daysInMonth) return null;
   const projCvts = Math.round(d.total_couverts_web * daysInMonth / dayElapsed);
-  return planCostCalc(projCvts, d.panier_moyen || 30.45);
+  return planCostCalc(projCvts, d.panier_moyen || 30.45, d.period);
 }
 
 function renderHeroProj(d, data) {
@@ -909,14 +912,15 @@ function renderAnnual(current, data) {
   });
 }
 
-function planCostCalc(couverts, panier) {
+function planCostCalc(couverts, panier, period) {
   if (couverts === 0) return 30;
   const B = [[1,50,0.016],[51,100,0.013],[101,200,0.010],[201,300,0.007],[301,500,0.004]];
+  const cap = (period && period >= '2026-03') ? 119 : 150;
   let r = 0;
   for (const [lo, hi, t] of B) {
     if (couverts >= lo) r += (Math.min(couverts, hi) - lo + 1) * panier * t;
   }
-  return Math.min(30 + r, 150);
+  return Math.min(30 + r, cap);
 }
 
 // ─── Data loading ─────────────────────────────────────────────────────────────
