@@ -1,13 +1,13 @@
 {
-  "last_updated": "20/04/2026 à 00:31",
-  "last_updated_iso": "2026-04-19T22:31:54.897654+00:00",
+  "last_updated": "21/04/2026 à 00:40",
+  "last_updated_iso": "2026-04-20T22:40:29.823166+00:00",
   "current_month": {
     "period": "2026-04",
     "periode_label": "Avril 2026",
-    "total_couverts_web": 149,
+    "total_couverts_web": 152,
     "panier_moyen": 30.45,
-    "montant_plan": 89.07,
-    "detail_plan": "30€ base + 59.07€ commission",
+    "montant_plan": 89.99,
+    "detail_plan": "30€ base + 59.99€ commission",
     "detail_tranches": [
       {
         "range": "1–50",
@@ -26,13 +26,13 @@
       {
         "range": "101–200",
         "taux": "1.0",
-        "n": 49,
+        "n": 52,
         "panier": 30.45,
-        "montant": 14.92
+        "montant": 15.83
       }
     ],
-    "total_reservations_brut": 208,
-    "total_reservations_web": 46
+    "total_reservations_brut": 217,
+    "total_reservations_web": 47
   },
   "history": [
     {
@@ -116,10 +116,10 @@
     {
       "period": "2026-04",
       "periode_label": "Avril 2026",
-      "total_couverts_web": 149,
+      "total_couverts_web": 152,
       "panier_moyen": 30.45,
-      "montant_plan": 89.07,
-      "detail_plan": "30€ base + 59.07€ commission",
+      "montant_plan": 89.99,
+      "detail_plan": "30€ base + 59.99€ commission",
       "detail_tranches": [
         {
           "range": "1–50",
@@ -138,13 +138,13 @@
         {
           "range": "101–200",
           "taux": "1.0",
-          "n": 49,
+          "n": 52,
           "panier": 30.45,
-          "montant": 14.92
+          "montant": 15.83
         }
       ],
-      "total_reservations_brut": 208,
-      "total_reservations_web": 46
+      "total_reservations_brut": 217,
+      "total_reservations_web": 47
     }
   ]
 }
