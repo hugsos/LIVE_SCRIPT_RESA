@@ -1,6 +1,6 @@
 {
-  "last_updated": "18/05/2026 à 00:50",
-  "last_updated_iso": "2026-05-17T22:50:50.642495+00:00",
+  "last_updated": "19/05/2026 à 00:57",
+  "last_updated_iso": "2026-05-18T22:57:31.478882+00:00",
   "current_month": {
     "period": "2026-05",
     "periode_label": "Mai 2026",
@@ -31,13 +31,13 @@
         "montant": 27.1
       }
     ],
-    "total_reservations_brut": 277,
+    "total_reservations_brut": 281,
     "total_reservations_web": 58,
     "stats": {
-      "total_brut": 277,
+      "total_brut": 281,
       "total_annule": 18,
-      "taux_annul": 6.5,
-      "taux_web": 20.9,
+      "taux_annul": 6.4,
+      "taux_web": 20.6,
       "moy_groupe": 3.3,
       "ca_estime": 5755.05,
       "dejeuner": 31,
@@ -486,13 +486,13 @@
           "montant": 27.1
         }
       ],
-      "total_reservations_brut": 277,
+      "total_reservations_brut": 281,
       "total_reservations_web": 58,
       "stats": {
-        "total_brut": 277,
+        "total_brut": 281,
         "total_annule": 18,
-        "taux_annul": 6.5,
-        "taux_web": 20.9,
+        "taux_annul": 6.4,
+        "taux_web": 20.6,
         "moy_groupe": 3.3,
         "ca_estime": 5755.05,
         "dejeuner": 31,
