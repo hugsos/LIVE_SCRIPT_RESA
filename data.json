@@ -1,13 +1,13 @@
 {
-  "last_updated": "27/05/2026 à 01:07",
-  "last_updated_iso": "2026-05-26T23:07:13.907438+00:00",
+  "last_updated": "28/05/2026 à 01:15",
+  "last_updated_iso": "2026-05-27T23:15:11.929958+00:00",
   "current_month": {
     "period": "2026-05",
     "periode_label": "Mai 2026",
-    "total_couverts_web": 221,
+    "total_couverts_web": 226,
     "panier_moyen": 30.45,
-    "montant_plan": 109.08,
-    "detail_plan": "30€ base + 79.08€ commission",
+    "montant_plan": 110.14,
+    "detail_plan": "30€ base + 80.14€ commission",
     "detail_tranches": [
       {
         "range": "1–50",
@@ -33,31 +33,31 @@
       {
         "range": "201–300",
         "taux": "0.7",
-        "n": 21,
+        "n": 26,
         "panier": 30.45,
-        "montant": 4.48
+        "montant": 5.54
       }
     ],
-    "total_reservations_brut": 366,
-    "total_reservations_web": 68,
+    "total_reservations_brut": 378,
+    "total_reservations_web": 70,
     "stats": {
-      "total_brut": 366,
+      "total_brut": 378,
       "total_annule": 20,
-      "taux_annul": 5.5,
-      "taux_web": 18.6,
+      "taux_annul": 5.3,
+      "taux_web": 18.5,
       "moy_groupe": 3.2,
-      "ca_estime": 6729.45,
-      "dejeuner": 40,
-      "diner": 28,
-      "whatsapp": 22,
+      "ca_estime": 6881.7,
+      "dejeuner": 41,
+      "diner": 29,
+      "whatsapp": 23,
       "by_weekday": [
         9,
         3,
         5,
         8,
         16,
-        14,
-        13
+        15,
+        14
       ],
       "couv_by_weekday": [
         27,
@@ -65,8 +65,8 @@
         11,
         24,
         42,
-        38,
-        73
+        40,
+        76
       ],
       "by_day": {
         "2026-05-01": 1,
@@ -91,12 +91,13 @@
         "2026-05-25": 3,
         "2026-05-27": 1,
         "2026-05-28": 1,
-        "2026-05-31": 2
+        "2026-05-30": 1,
+        "2026-05-31": 3
       },
       "group_sizes": {
         "1": 2,
-        "2": 37,
-        "3": 8,
+        "2": 38,
+        "3": 9,
         "4": 9,
         "5": 4,
         "6": 5,
@@ -469,10 +470,10 @@
     {
       "period": "2026-05",
       "periode_label": "Mai 2026",
-      "total_couverts_web": 221,
+      "total_couverts_web": 226,
       "panier_moyen": 30.45,
-      "montant_plan": 109.08,
-      "detail_plan": "30€ base + 79.08€ commission",
+      "montant_plan": 110.14,
+      "detail_plan": "30€ base + 80.14€ commission",
       "detail_tranches": [
         {
           "range": "1–50",
@@ -498,31 +499,31 @@
         {
           "range": "201–300",
           "taux": "0.7",
-          "n": 21,
+          "n": 26,
           "panier": 30.45,
-          "montant": 4.48
+          "montant": 5.54
         }
       ],
-      "total_reservations_brut": 366,
-      "total_reservations_web": 68,
+      "total_reservations_brut": 378,
+      "total_reservations_web": 70,
       "stats": {
-        "total_brut": 366,
+        "total_brut": 378,
         "total_annule": 20,
-        "taux_annul": 5.5,
-        "taux_web": 18.6,
+        "taux_annul": 5.3,
+        "taux_web": 18.5,
         "moy_groupe": 3.2,
-        "ca_estime": 6729.45,
-        "dejeuner": 40,
-        "diner": 28,
-        "whatsapp": 22,
+        "ca_estime": 6881.7,
+        "dejeuner": 41,
+        "diner": 29,
+        "whatsapp": 23,
         "by_weekday": [
           9,
           3,
           5,
           8,
           16,
-          14,
-          13
+          15,
+          14
         ],
         "couv_by_weekday": [
           27,
@@ -530,8 +531,8 @@
           11,
           24,
           42,
-          38,
-          73
+          40,
+          76
         ],
         "by_day": {
           "2026-05-01": 1,
@@ -556,12 +557,13 @@
           "2026-05-25": 3,
           "2026-05-27": 1,
           "2026-05-28": 1,
-          "2026-05-31": 2
+          "2026-05-30": 1,
+          "2026-05-31": 3
         },
         "group_sizes": {
           "1": 2,
-          "2": 37,
-          "3": 8,
+          "2": 38,
+          "3": 9,
           "4": 9,
           "5": 4,
           "6": 5,
