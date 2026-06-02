@@ -1,60 +1,62 @@
 {
-  "last_updated": "02/06/2026 à 01:25",
-  "last_updated_iso": "2026-06-01T23:25:53.499523+00:00",
+  "last_updated": "03/06/2026 à 01:32",
+  "last_updated_iso": "2026-06-02T23:32:21.982578+00:00",
   "current_month": {
     "period": "2026-06",
     "periode_label": "Juin 2026",
-    "total_couverts_web": 10,
+    "total_couverts_web": 17,
     "panier_moyen": 30.45,
-    "montant_plan": 34.87,
-    "detail_plan": "30€ base + 4.87€ commission",
+    "montant_plan": 38.28,
+    "detail_plan": "30€ base + 8.28€ commission",
     "detail_tranches": [
       {
         "range": "1–50",
         "taux": "1.6",
-        "n": 10,
+        "n": 17,
         "panier": 30.45,
-        "montant": 4.87
+        "montant": 8.28
       }
     ],
-    "total_reservations_brut": 78,
-    "total_reservations_web": 4,
+    "total_reservations_brut": 84,
+    "total_reservations_web": 6,
     "stats": {
-      "total_brut": 78,
+      "total_brut": 84,
       "total_annule": 11,
-      "taux_annul": 14.1,
-      "taux_web": 5.1,
-      "moy_groupe": 2.5,
-      "ca_estime": 304.5,
-      "dejeuner": 2,
-      "diner": 2,
-      "whatsapp": 0,
+      "taux_annul": 13.1,
+      "taux_web": 7.1,
+      "moy_groupe": 2.8,
+      "ca_estime": 517.65,
+      "dejeuner": 3,
+      "diner": 3,
+      "whatsapp": 2,
       "by_weekday": [
         2,
         0,
-        1,
+        2,
         0,
         0,
         0,
-        1
+        2
       ],
       "couv_by_weekday": [
         4,
         0,
-        2,
+        4,
         0,
         0,
         0,
-        4
+        9
       ],
       "by_day": {
         "2026-06-01": 2,
-        "2026-06-03": 1,
+        "2026-06-03": 2,
+        "2026-06-07": 1,
         "2026-06-28": 1
       },
       "group_sizes": {
-        "2": 3,
-        "4": 1
+        "2": 4,
+        "4": 1,
+        "5": 1
       }
     }
   },
@@ -528,57 +530,59 @@
     {
       "period": "2026-06",
       "periode_label": "Juin 2026",
-      "total_couverts_web": 10,
+      "total_couverts_web": 17,
       "panier_moyen": 30.45,
-      "montant_plan": 34.87,
-      "detail_plan": "30€ base + 4.87€ commission",
+      "montant_plan": 38.28,
+      "detail_plan": "30€ base + 8.28€ commission",
       "detail_tranches": [
         {
           "range": "1–50",
           "taux": "1.6",
-          "n": 10,
+          "n": 17,
           "panier": 30.45,
-          "montant": 4.87
+          "montant": 8.28
         }
       ],
-      "total_reservations_brut": 78,
-      "total_reservations_web": 4,
+      "total_reservations_brut": 84,
+      "total_reservations_web": 6,
       "stats": {
-        "total_brut": 78,
+        "total_brut": 84,
         "total_annule": 11,
-        "taux_annul": 14.1,
-        "taux_web": 5.1,
-        "moy_groupe": 2.5,
-        "ca_estime": 304.5,
-        "dejeuner": 2,
-        "diner": 2,
-        "whatsapp": 0,
+        "taux_annul": 13.1,
+        "taux_web": 7.1,
+        "moy_groupe": 2.8,
+        "ca_estime": 517.65,
+        "dejeuner": 3,
+        "diner": 3,
+        "whatsapp": 2,
         "by_weekday": [
           2,
           0,
-          1,
+          2,
           0,
           0,
           0,
-          1
+          2
         ],
         "couv_by_weekday": [
           4,
           0,
-          2,
+          4,
           0,
           0,
           0,
-          4
+          9
         ],
         "by_day": {
           "2026-06-01": 2,
-          "2026-06-03": 1,
+          "2026-06-03": 2,
+          "2026-06-07": 1,
           "2026-06-28": 1
         },
         "group_sizes": {
-          "2": 3,
-          "4": 1
+          "2": 4,
+          "4": 1,
+          "5": 1
         }
       }
     }
