@@ -1,13 +1,13 @@
 {
-  "last_updated": "26/07/2026 à 00:50",
-  "last_updated_iso": "2026-07-25T22:50:13.025705+00:00",
+  "last_updated": "27/07/2026 à 00:56",
+  "last_updated_iso": "2026-07-26T22:56:57.470738+00:00",
   "current_month": {
     "period": "2026-07",
     "periode_label": "Juillet 2026",
-    "total_couverts_web": 351,
+    "total_couverts_web": 363,
     "panier_moyen": 30.45,
     "montant_plan": 119.0,
-    "detail_plan": "30€ base + 102.13€ commission (plafonné à 119€)",
+    "detail_plan": "30€ base + 103.59€ commission (plafonné à 119€)",
     "detail_tranches": [
       {
         "range": "1–50",
@@ -40,40 +40,40 @@
       {
         "range": "301–500",
         "taux": "0.4",
-        "n": 51,
+        "n": 63,
         "panier": 30.45,
-        "montant": 6.21
+        "montant": 7.67
       }
     ],
-    "total_reservations_brut": 362,
-    "total_reservations_web": 116,
+    "total_reservations_brut": 372,
+    "total_reservations_web": 120,
     "stats": {
-      "total_brut": 362,
-      "total_annule": 17,
-      "taux_annul": 4.7,
-      "taux_web": 32.0,
+      "total_brut": 372,
+      "total_annule": 18,
+      "taux_annul": 4.8,
+      "taux_web": 32.3,
       "moy_groupe": 3.0,
-      "ca_estime": 10687.95,
-      "dejeuner": 35,
-      "diner": 81,
-      "whatsapp": 31,
+      "ca_estime": 11053.35,
+      "dejeuner": 37,
+      "diner": 83,
+      "whatsapp": 32,
       "by_weekday": [
-        26,
+        28,
         11,
         15,
         20,
         17,
         21,
-        6
+        8
       ],
       "couv_by_weekday": [
-        79,
+        85,
         34,
         49,
         58,
         47,
         60,
-        24
+        30
       ],
       "by_day": {
         "2026-07-01": 2,
@@ -98,15 +98,15 @@
         "2026-07-23": 11,
         "2026-07-24": 7,
         "2026-07-25": 8,
-        "2026-07-26": 1,
-        "2026-07-27": 3,
+        "2026-07-26": 3,
+        "2026-07-27": 5,
         "2026-07-31": 1
       },
       "group_sizes": {
         "1": 1,
-        "2": 62,
-        "3": 14,
-        "4": 21,
+        "2": 63,
+        "3": 16,
+        "4": 22,
         "5": 11,
         "6": 5,
         "7": 1,
@@ -118,10 +118,10 @@
     {
       "period": "2026-07",
       "periode_label": "Juillet 2026",
-      "total_couverts_web": 351,
+      "total_couverts_web": 363,
       "panier_moyen": 30.45,
       "montant_plan": 119.0,
-      "detail_plan": "30€ base + 102.13€ commission (plafonné à 119€)",
+      "detail_plan": "30€ base + 103.59€ commission (plafonné à 119€)",
       "detail_tranches": [
         {
           "range": "1–50",
@@ -154,40 +154,40 @@
         {
           "range": "301–500",
           "taux": "0.4",
-          "n": 51,
+          "n": 63,
           "panier": 30.45,
-          "montant": 6.21
+          "montant": 7.67
         }
       ],
-      "total_reservations_brut": 362,
-      "total_reservations_web": 116,
+      "total_reservations_brut": 372,
+      "total_reservations_web": 120,
       "stats": {
-        "total_brut": 362,
-        "total_annule": 17,
-        "taux_annul": 4.7,
-        "taux_web": 32.0,
+        "total_brut": 372,
+        "total_annule": 18,
+        "taux_annul": 4.8,
+        "taux_web": 32.3,
         "moy_groupe": 3.0,
-        "ca_estime": 10687.95,
-        "dejeuner": 35,
-        "diner": 81,
-        "whatsapp": 31,
+        "ca_estime": 11053.35,
+        "dejeuner": 37,
+        "diner": 83,
+        "whatsapp": 32,
         "by_weekday": [
-          26,
+          28,
           11,
           15,
           20,
           17,
           21,
-          6
+          8
         ],
         "couv_by_weekday": [
-          79,
+          85,
           34,
           49,
           58,
           47,
           60,
-          24
+          30
         ],
         "by_day": {
           "2026-07-01": 2,
@@ -212,15 +212,15 @@
           "2026-07-23": 11,
           "2026-07-24": 7,
           "2026-07-25": 8,
-          "2026-07-26": 1,
-          "2026-07-27": 3,
+          "2026-07-26": 3,
+          "2026-07-27": 5,
           "2026-07-31": 1
         },
         "group_sizes": {
           "1": 1,
-          "2": 62,
-          "3": 14,
-          "4": 21,
+          "2": 63,
+          "3": 16,
+          "4": 22,
           "5": 11,
           "6": 5,
           "7": 1,
