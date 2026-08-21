@@ -1,13 +1,13 @@
 {
-  "last_updated": "21/08/2026 à 00:22",
-  "last_updated_iso": "2026-08-20T22:22:43.716981+00:00",
+  "last_updated": "22/08/2026 à 00:19",
+  "last_updated_iso": "2026-08-21T22:19:37.730587+00:00",
   "current_month": {
     "period": "2026-08",
     "periode_label": "Août 2026",
-    "total_couverts_web": 433,
+    "total_couverts_web": 437,
     "panier_moyen": 30.45,
     "montant_plan": 119.0,
-    "detail_plan": "30€ base + 112.12€ commission (plafonné à 119€)",
+    "detail_plan": "30€ base + 112.60€ commission (plafonné à 119€)",
     "detail_tranches": [
       {
         "range": "1–50",
@@ -40,30 +40,30 @@
       {
         "range": "301–500",
         "taux": "0.4",
-        "n": 133,
+        "n": 137,
         "panier": 30.45,
-        "montant": 16.2
+        "montant": 16.69
       }
     ],
-    "total_reservations_brut": 440,
-    "total_reservations_web": 139,
+    "total_reservations_brut": 457,
+    "total_reservations_web": 140,
     "stats": {
-      "total_brut": 440,
-      "total_annule": 17,
-      "taux_annul": 3.9,
-      "taux_web": 31.6,
+      "total_brut": 457,
+      "total_annule": 20,
+      "taux_annul": 4.4,
+      "taux_web": 30.6,
       "moy_groupe": 3.1,
-      "ca_estime": 13184.85,
+      "ca_estime": 13306.65,
       "dejeuner": 31,
-      "diner": 108,
-      "whatsapp": 34,
+      "diner": 109,
+      "whatsapp": 36,
       "by_weekday": [
         18,
         23,
         14,
         25,
-        13,
-        25,
+        12,
+        27,
         21
       ],
       "couv_by_weekday": [
@@ -71,8 +71,8 @@
         61,
         46,
         72,
-        47,
-        64,
+        43,
+        72,
         89
       ],
       "by_day": {
@@ -96,17 +96,16 @@
         "2026-08-18": 8,
         "2026-08-19": 3,
         "2026-08-20": 6,
-        "2026-08-21": 1,
-        "2026-08-22": 2,
+        "2026-08-22": 4,
         "2026-08-23": 1,
         "2026-08-30": 1
       },
       "group_sizes": {
-        "2": 73,
+        "2": 74,
         "3": 16,
-        "4": 27,
+        "4": 26,
         "5": 10,
-        "6": 10,
+        "6": 11,
         "7": 3
       }
     }
@@ -231,10 +230,10 @@
     {
       "period": "2026-08",
       "periode_label": "Août 2026",
-      "total_couverts_web": 433,
+      "total_couverts_web": 437,
       "panier_moyen": 30.45,
       "montant_plan": 119.0,
-      "detail_plan": "30€ base + 112.12€ commission (plafonné à 119€)",
+      "detail_plan": "30€ base + 112.60€ commission (plafonné à 119€)",
       "detail_tranches": [
         {
           "range": "1–50",
@@ -267,30 +266,30 @@
         {
           "range": "301–500",
           "taux": "0.4",
-          "n": 133,
+          "n": 137,
           "panier": 30.45,
-          "montant": 16.2
+          "montant": 16.69
         }
       ],
-      "total_reservations_brut": 440,
-      "total_reservations_web": 139,
+      "total_reservations_brut": 457,
+      "total_reservations_web": 140,
       "stats": {
-        "total_brut": 440,
-        "total_annule": 17,
-        "taux_annul": 3.9,
-        "taux_web": 31.6,
+        "total_brut": 457,
+        "total_annule": 20,
+        "taux_annul": 4.4,
+        "taux_web": 30.6,
         "moy_groupe": 3.1,
-        "ca_estime": 13184.85,
+        "ca_estime": 13306.65,
         "dejeuner": 31,
-        "diner": 108,
-        "whatsapp": 34,
+        "diner": 109,
+        "whatsapp": 36,
         "by_weekday": [
           18,
           23,
           14,
           25,
-          13,
-          25,
+          12,
+          27,
           21
         ],
         "couv_by_weekday": [
@@ -298,8 +297,8 @@
           61,
           46,
           72,
-          47,
-          64,
+          43,
+          72,
           89
         ],
         "by_day": {
@@ -323,17 +322,16 @@
           "2026-08-18": 8,
           "2026-08-19": 3,
           "2026-08-20": 6,
-          "2026-08-21": 1,
-          "2026-08-22": 2,
+          "2026-08-22": 4,
           "2026-08-23": 1,
           "2026-08-30": 1
         },
         "group_sizes": {
-          "2": 73,
+          "2": 74,
           "3": 16,
-          "4": 27,
+          "4": 26,
           "5": 10,
-          "6": 10,
+          "6": 11,
           "7": 3
         }
       }
