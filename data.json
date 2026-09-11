@@ -1,6 +1,6 @@
 {
-  "last_updated": "11/09/2026 à 01:40",
-  "last_updated_iso": "2026-09-10T23:40:06.580426+00:00",
+  "last_updated": "12/09/2026 à 01:49",
+  "last_updated_iso": "2026-09-11T23:49:44.638754+00:00",
   "current_month": {
     "period": "2026-09",
     "periode_label": "Septembre 2026",
@@ -24,13 +24,13 @@
         "montant": 19.79
       }
     ],
-    "total_reservations_brut": 174,
+    "total_reservations_brut": 182,
     "total_reservations_web": 34,
     "stats": {
-      "total_brut": 174,
-      "total_annule": 13,
-      "taux_annul": 7.5,
-      "taux_web": 19.5,
+      "total_brut": 182,
+      "total_annule": 14,
+      "taux_annul": 7.7,
+      "taux_web": 18.7,
       "moy_groupe": 2.9,
       "ca_estime": 3045.0,
       "dejeuner": 11,
@@ -41,8 +41,8 @@
         4,
         7,
         3,
-        6,
         5,
+        6,
         6
       ],
       "couv_by_weekday": [
@@ -50,8 +50,8 @@
         9,
         20,
         5,
-        22,
-        14,
+        20,
+        16,
         22
       ],
       "by_day": {
@@ -65,8 +65,8 @@
         "2026-09-08": 3,
         "2026-09-09": 3,
         "2026-09-10": 1,
-        "2026-09-11": 4,
-        "2026-09-12": 2,
+        "2026-09-11": 3,
+        "2026-09-12": 3,
         "2026-09-13": 2,
         "2026-09-14": 1,
         "2026-09-20": 1
@@ -338,13 +338,13 @@
           "montant": 19.79
         }
       ],
-      "total_reservations_brut": 174,
+      "total_reservations_brut": 182,
       "total_reservations_web": 34,
       "stats": {
-        "total_brut": 174,
-        "total_annule": 13,
-        "taux_annul": 7.5,
-        "taux_web": 19.5,
+        "total_brut": 182,
+        "total_annule": 14,
+        "taux_annul": 7.7,
+        "taux_web": 18.7,
         "moy_groupe": 2.9,
         "ca_estime": 3045.0,
         "dejeuner": 11,
@@ -355,8 +355,8 @@
           4,
           7,
           3,
-          6,
           5,
+          6,
           6
         ],
         "couv_by_weekday": [
@@ -364,8 +364,8 @@
           9,
           20,
           5,
-          22,
-          14,
+          20,
+          16,
           22
         ],
         "by_day": {
@@ -379,8 +379,8 @@
           "2026-09-08": 3,
           "2026-09-09": 3,
           "2026-09-10": 1,
-          "2026-09-11": 4,
-          "2026-09-12": 2,
+          "2026-09-11": 3,
+          "2026-09-12": 3,
           "2026-09-13": 2,
           "2026-09-14": 1,
           "2026-09-20": 1
